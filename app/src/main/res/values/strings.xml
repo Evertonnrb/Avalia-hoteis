@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Avalia Hoteis</string>
+
+    <!--strings do menu-->
+    <string name="acao_pesquisar">Pesquisar</string>
+    <string name="acao_novo">Novo</string>
+    <string name="acao_info">Info</string>
+    <string name="acao_pesquisar_pesquisar">Procurar por Hotel</string>
 </resources>

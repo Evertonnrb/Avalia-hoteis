@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.ListFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import co.evertonnrb.findhoteis.interfaces.AoCliclarNoHotel;
@@ -51,12 +52,47 @@ public class HotelListFragment extends ListFragment  implements AoCliclarNoHotel
         }
     }
 
+    public void buscar(String s){
+        if (s == null || s.trim().equals("")){
+            limparBusca();
+            return;
+        }
+        List<Hotel> hoteisEncontrados = new ArrayList<>(mHoteis);
+        for (int i = hoteisEncontrados.size() -1; i >= 0; i-- ){
+            Hotel hotel = hoteisEncontrados.get(i);
+            if (!hotel.getNome().toUpperCase().contains(s.toUpperCase())){
+                hoteisEncontrados.remove(hotel);
+            }
+        }
+        mAdapter = new ArrayAdapter<Hotel>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                hoteisEncontrados
+        );
+        setListAdapter(mAdapter);
+    }
+
+    public void limparBusca(){
+        mAdapter = new ArrayAdapter<Hotel>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                mHoteis);
+        setListAdapter(mAdapter);
+    }
+
+    public void adicionar(Hotel hotel){
+        mHoteis.add(hotel);
+        mAdapter.notifyDataSetChanged();
+    }
+
     public List<Hotel> carregarHoteis(){
         return asList(new Hotel("Copacabana Palace","Rio de Janeiro",3.2f),
                 new Hotel("Jordao","Campos do Jordão",4.2f),
                 new Hotel("Friburgo Palace","Rio de Janeiro",4.9f),
                 new Hotel("Fundão da Rodoviária","Mato Grosso do Sul",2.2f));
     }
+
+
 
     @Override
     public void clicouNoHotel(Hotel hotel) {

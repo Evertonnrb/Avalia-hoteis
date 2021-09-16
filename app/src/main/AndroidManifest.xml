@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FindHoteis">
         <activity android:name=".HotelDetalheActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".HotelActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

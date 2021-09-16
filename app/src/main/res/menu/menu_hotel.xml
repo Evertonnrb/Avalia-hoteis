@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/actionSearch"
+        android:icon="@drawable/ic_search"
+        android:title="@string/acao_pesquisar"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="collapseActionView|ifRoom" />
+
+    <item
+        android:id="@+id/actionNew"
+        android:icon="@drawable/ic_add"
+        android:title="@string/acao_novo"
+        app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/actionInfo"
+        android:icon="@drawable/ic_details"
+        android:title="@string/acao_info"
+        app:showAsAction="never" />
+</menu>
