@@ -1,9 +1,11 @@
 package co.evertonnrb.findhoteis;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
@@ -11,13 +13,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import co.evertonnrb.findhoteis.fragaments.AoSalvarHotel;
 import co.evertonnrb.findhoteis.fragaments.HotelDetalheFragment;
+import co.evertonnrb.findhoteis.fragaments.HotelDialogFragment;
 import co.evertonnrb.findhoteis.fragaments.HotelListFragment;
+import co.evertonnrb.findhoteis.fragaments.SobreDialogFragment;
 import co.evertonnrb.findhoteis.interfaces.AoCliclarNoHotel;
 import co.evertonnrb.findhoteis.model.Hotel;
 
 public class HotelActivity extends AppCompatActivity implements
-        AoCliclarNoHotel,
+        AoCliclarNoHotel, HotelDialogFragment.AoSalvarHotel,
         SearchView.OnQueryTextListener,
         MenuItemCompat.OnActionExpandListener {
 
@@ -31,6 +36,20 @@ public class HotelActivity extends AppCompatActivity implements
 
         mFragmentiManager = getSupportFragmentManager();
         mHotelListFragment = (HotelListFragment) mFragmentiManager.findFragmentById(R.id.fragmentListaHoteis);
+    }
+
+    /**
+     * Reutilização da activity para não perder dados estáticos
+     * @return
+     */
+    @Nullable
+    @Override
+    public Intent getParentActivityIntent() {
+        Intent intent = super.getParentActivityIntent();
+        if (intent!=null){
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        return super.getParentActivityIntent();
     }
 
     @Override
@@ -50,6 +69,18 @@ public class HotelActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.actionInfo:
+                SobreDialogFragment dialodFragment = new SobreDialogFragment();
+                dialodFragment.show(getSupportFragmentManager(),"sobre");
+                break;
+            case R.id.actionNew:
+                HotelDialogFragment hotelDialogFragment = HotelDialogFragment.newIntance(null);
+                hotelDialogFragment.abrirDialogo(getSupportFragmentManager());
+                break;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -80,5 +111,10 @@ public class HotelActivity extends AppCompatActivity implements
         Intent intent = new Intent(this, HotelDetalheActivity.class);
         intent.putExtra(HotelDetalheFragment.EXTRA_HOTEL, hotel);
         startActivity(intent);
+    }
+
+    @Override
+    public void salvouHotel(Hotel hotel) {
+        mHotelListFragment.adicionar(hotel);
     }
 }

@@ -6,4 +6,9 @@
     <string name="acao_novo">Novo</string>
     <string name="acao_info">Info</string>
     <string name="acao_pesquisar_pesquisar">Procurar por Hotel</string>
+    <string name="sobre_titulo">Sobre</string>
+    <string name="sobre_mensagem">Sobre o Desenvolvedor</string>
+    <string name="sobre_desenvolvedor">Site</string>
+    <string name="nome">Nome</string>
+    <string name="endereco">Endereço</string>
 </resources>

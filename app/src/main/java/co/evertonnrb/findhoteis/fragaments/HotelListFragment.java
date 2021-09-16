@@ -20,7 +20,7 @@ import co.evertonnrb.findhoteis.model.Hotel;
 
 import static java.util.Arrays.asList;
 
-public class HotelListFragment extends ListFragment  implements AoCliclarNoHotel{
+public class HotelListFragment extends ListFragment implements AoCliclarNoHotel {
     List<Hotel> mHoteis;
     ArrayAdapter<Hotel> mAdapter;
 
@@ -44,23 +44,23 @@ public class HotelListFragment extends ListFragment  implements AoCliclarNoHotel
         super.onListItemClick(l, v, position, id);
 
         Activity activity = getActivity();
-        if (activity instanceof AoCliclarNoHotel){
+        if (activity instanceof AoCliclarNoHotel) {
             Hotel hotel = (Hotel) l.getItemAtPosition(position);
 
-            AoCliclarNoHotel listener = (AoCliclarNoHotel)activity;
+            AoCliclarNoHotel listener = (AoCliclarNoHotel) activity;
             listener.clicouNoHotel(hotel);
         }
     }
 
-    public void buscar(String s){
-        if (s == null || s.trim().equals("")){
+    public void buscar(String s) {
+        if (s == null || s.trim().equals("")) {
             limparBusca();
             return;
         }
-        List<Hotel> hoteisEncontrados = new ArrayList<>(mHoteis);
-        for (int i = hoteisEncontrados.size() -1; i >= 0; i-- ){
+        List<Hotel> hoteisEncontrados = new ArrayList<Hotel>(mHoteis);
+        for (int i = hoteisEncontrados.size() - 1; i >= 0; i--) {
             Hotel hotel = hoteisEncontrados.get(i);
-            if (!hotel.getNome().toUpperCase().contains(s.toUpperCase())){
+            if (!hotel.getNome().toUpperCase().contains(s.toUpperCase())) {
                 hoteisEncontrados.remove(hotel);
             }
         }
@@ -72,7 +72,7 @@ public class HotelListFragment extends ListFragment  implements AoCliclarNoHotel
         setListAdapter(mAdapter);
     }
 
-    public void limparBusca(){
+    public void limparBusca() {
         mAdapter = new ArrayAdapter<Hotel>(
                 getActivity(),
                 android.R.layout.simple_list_item_1,
@@ -80,18 +80,18 @@ public class HotelListFragment extends ListFragment  implements AoCliclarNoHotel
         setListAdapter(mAdapter);
     }
 
-    public void adicionar(Hotel hotel){
+    public void adicionar(Hotel hotel) {
         mHoteis.add(hotel);
         mAdapter.notifyDataSetChanged();
     }
 
-    public List<Hotel> carregarHoteis(){
-        return asList(new Hotel("Copacabana Palace","Rio de Janeiro",3.2f),
-                new Hotel("Jordao","Campos do Jordão",4.2f),
-                new Hotel("Friburgo Palace","Rio de Janeiro",4.9f),
-                new Hotel("Fundão da Rodoviária","Mato Grosso do Sul",2.2f));
+    public List<Hotel> carregarHoteis() {
+        List<Hotel> hoteis = new ArrayList<>();
+        hoteis.add(new Hotel("Copacabana Palace", "Rio de Janeiro", 3.2f));
+        hoteis.add(new Hotel("Friburgo Palace", "Rio de Janeiro", 4.9f));
+        hoteis.add(new Hotel("Fundão da Rodoviária", "Mato Grosso do Sul", 2.2f));
+        return hoteis;
     }
-
 
 
     @Override
