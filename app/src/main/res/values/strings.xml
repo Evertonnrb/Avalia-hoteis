@@ -11,4 +11,15 @@
     <string name="sobre_desenvolvedor">Site</string>
     <string name="nome">Nome</string>
     <string name="endereco">Endereço</string>
+    <string name="acao_delete">Remover</string>
+
+    <!--plurals ação delete-->
+    <plurals name="numero_selecionados">
+        <item quantity="one">1 Selecionado</item>
+        <item quantity="many">%d Selecionados</item>
+    </plurals>
+
+    <!--string para snack-->
+    <string name="desfazer">Desfazer</string>
+    <string name="mensagem_excluir">%1$d itens excuídos</string>
 </resources>
