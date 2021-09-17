@@ -8,12 +8,13 @@
         android:title="@string/acao_pesquisar"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
+<!--
 
     <item
         android:id="@+id/actionNew"
         android:icon="@drawable/ic_add"
         android:title="@string/acao_novo"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="ifRoom|withText" />-->
 
     <item
         android:id="@+id/actionInfo"

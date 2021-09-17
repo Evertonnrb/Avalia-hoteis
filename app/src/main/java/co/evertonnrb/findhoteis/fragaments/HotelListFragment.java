@@ -199,7 +199,7 @@ public class HotelListFragment extends ListFragment implements
                 mHoteis.remove(checked.keyAt(i));
             }
         }
-        Snackbar.make(mListView,getString(R.string.mensagem_excluir,hoteisExcluidos.size()), Snackbar.LENGTH_LONG)
+        Snackbar.make(mListView,getString(R.string.mensagem_excluir,hoteisExcluidos.size()), Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.desfazer, v -> {
                     for (Hotel h : hoteisExcluidos) {
                         hoteisExcluidos.add(h);

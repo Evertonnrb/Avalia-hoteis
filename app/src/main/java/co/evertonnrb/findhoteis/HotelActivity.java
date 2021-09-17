@@ -5,15 +5,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import co.evertonnrb.findhoteis.fragaments.AoSalvarHotel;
 import co.evertonnrb.findhoteis.fragaments.HotelDetalheFragment;
 import co.evertonnrb.findhoteis.fragaments.HotelDialogFragment;
 import co.evertonnrb.findhoteis.fragaments.HotelListFragment;
@@ -32,7 +31,7 @@ public class HotelActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_hotel_main);
 
         mFragmentiManager = getSupportFragmentManager();
         mHotelListFragment = (HotelListFragment) mFragmentiManager.findFragmentById(R.id.fragmentListaHoteis);
@@ -75,10 +74,10 @@ public class HotelActivity extends AppCompatActivity implements
                 SobreDialogFragment dialodFragment = new SobreDialogFragment();
                 dialodFragment.show(getSupportFragmentManager(),"sobre");
                 break;
-            case R.id.actionNew:
+           /* case R.id.actionNew:
                 HotelDialogFragment hotelDialogFragment = HotelDialogFragment.newIntance(null);
                 hotelDialogFragment.abrirDialogo(getSupportFragmentManager());
-                break;
+                break;*/
         }
 
         return super.onOptionsItemSelected(item);
@@ -116,5 +115,10 @@ public class HotelActivity extends AppCompatActivity implements
     @Override
     public void salvouHotel(Hotel hotel) {
         mHotelListFragment.adicionar(hotel);
+    }
+
+    public void adicionarHotelNaListaClick(View view) {
+        HotelDialogFragment hotelDialogFragment = HotelDialogFragment.newIntance(null);
+        hotelDialogFragment.abrirDialogo(getSupportFragmentManager());
     }
 }

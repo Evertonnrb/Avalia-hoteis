@@ -9,16 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FindHoteis">
-        <activity android:name=".HotelDetalheActivity"
-            android:parentActivityName=".HotelActivity">
-        </activity>
-        <activity android:name=".HotelActivity"
-            android:launchMode="singleTop">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".HotelDetalheActivity"
+            android:parentActivityName=".HotelActivity"></activity>
+        <activity
+            android:name=".HotelActivity"
+            android:launchMode="singleTop">
+
         </activity>
     </application>
 
