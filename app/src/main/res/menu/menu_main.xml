@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/menu_action_aba"
+        android:icon="@drawable/ic_add"
+        android:title="@string/opacao_aba"/>
+
+    <item
+        android:id="@+id/menu_action_spinner"
+        android:icon="@drawable/ic_edit"
+        android:title="@string/opacao_spinner"/>
+
+    <item
+        android:id="@+id/menu_action_pager"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/opacao_view_pager"/>
+    </group>
+</menu>

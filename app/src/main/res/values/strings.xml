@@ -22,4 +22,27 @@
     <!--string para snack-->
     <string name="desfazer">Desfazer</string>
     <string name="mensagem_excluir">%d itens excuídos</string>
+
+    <!--Strings actionbar-->
+    <string name="opacao_aba">Abas</string>
+    <string name="opacao_spinner">Spinner</string>
+    <string name="opacao_view_pager">View pager</string>
+
+    <string-array name="secoes">
+        <item>Secao 1</item>
+        <item>Secao 2</item>
+        <item>Secao 3</item>
+    </string-array>
+
+    <string-array name="cores_bg">
+        <item>#ffcdd2</item>
+        <item>#b2dfbd</item>
+        <item>#bbdefb</item>
+    </string-array>
+
+    <string-array name="cores_texto">
+        <item>#f44336</item>
+        <item>#f44336</item>
+        <item>#03a9f4</item>
+    </string-array>
 </resources>
