@@ -19,7 +19,20 @@
         <FrameLayout
             android:id="@+id/conteudoDrawer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="start|end"
+                android:layout_margin="@dimen/_16dp"
+                android:padding="@dimen/_16dp">
+
+                <!--TODO alterar layout-->
+
+            </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView

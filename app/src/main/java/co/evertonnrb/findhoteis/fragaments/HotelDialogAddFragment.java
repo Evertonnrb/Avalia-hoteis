@@ -20,10 +20,9 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import co.evertonnrb.findhoteis.R;
-import co.evertonnrb.findhoteis.interfaces.AoCliclarNoHotel;
 import co.evertonnrb.findhoteis.model.Hotel;
 
-public class HotelDialogFragment extends DialogFragment implements
+public class HotelDialogAddFragment extends DialogFragment implements
         TextView.OnEditorActionListener{
 
     private static final String DIALOG_TAG = "editDialog";
@@ -35,14 +34,14 @@ public class HotelDialogFragment extends DialogFragment implements
 
     private Hotel mHotel;
 
-    public static HotelDialogFragment newIntance(Hotel hotel) {
+    public static HotelDialogAddFragment newIntance(Hotel hotel) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(EXTRA_HOTEL, hotel);
 
-        HotelDialogFragment hotelDialogFragment = new HotelDialogFragment();
-        hotelDialogFragment.setArguments(bundle);
+        HotelDialogAddFragment hotelDialogAddFragment = new HotelDialogAddFragment();
+        hotelDialogAddFragment.setArguments(bundle);
 
-        return hotelDialogFragment;
+        return hotelDialogAddFragment;
     }
 
     @Override

@@ -6,6 +6,12 @@
     android:background="?attr/colorPrimary"
     android:paddingTop="@dimen/_16dp">
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_launcher_background"
+        android:layout_gravity="center|top"/>
+
     <TextView
         android:id="@+id/txtCabecalhoMenu"
         style="@style/mSimpleTextViewLarge"

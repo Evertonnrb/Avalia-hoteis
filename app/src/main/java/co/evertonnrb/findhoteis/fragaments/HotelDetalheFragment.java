@@ -2,8 +2,12 @@ package co.evertonnrb.findhoteis.fragaments;/*
     @author everton.nrb@gmail.com
 */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
@@ -11,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.ShareActionProvider;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
 import co.evertonnrb.findhoteis.R;
@@ -24,6 +30,8 @@ public class HotelDetalheFragment extends Fragment {
     private TextView mTextViewDetalheHotelFragmentNome;
     private TextView mTextViewDetalheHotelFragmentEndereco;
     private RatingBar mRatingBarDetalheHotelFragmentEstrelas;
+
+    private ShareActionProvider mShareActionProvider;
 
     private Hotel mHotel;
 
@@ -41,6 +49,21 @@ public class HotelDetalheFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mHotel = (Hotel) getArguments().getSerializable(EXTRA_HOTEL);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_share,menu);
+        MenuItem shareItem = menu.findItem(R.id.action_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        String texto = getString(R.string.compartilhar_experiencia,mHotel.getNome(),mHotel.getEstrelas());
+        Intent it = new Intent(Intent.ACTION_SEND);
+        it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        it.setType("text/plain");
+        it.putExtra(Intent.EXTRA_TEXT,texto);
+        mShareActionProvider.setShareIntent(it);
     }
 
     @Nullable
@@ -61,4 +84,5 @@ public class HotelDetalheFragment extends Fragment {
         }
         return layout;
     }
+
 }

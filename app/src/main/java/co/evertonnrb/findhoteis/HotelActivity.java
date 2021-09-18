@@ -14,14 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 
 import co.evertonnrb.findhoteis.fragaments.HotelDetalheFragment;
-import co.evertonnrb.findhoteis.fragaments.HotelDialogFragment;
+import co.evertonnrb.findhoteis.fragaments.HotelDialogAddFragment;
 import co.evertonnrb.findhoteis.fragaments.HotelListFragment;
 import co.evertonnrb.findhoteis.fragaments.SobreDialogFragment;
 import co.evertonnrb.findhoteis.interfaces.AoCliclarNoHotel;
 import co.evertonnrb.findhoteis.model.Hotel;
 
 public class HotelActivity extends AppCompatActivity implements
-        AoCliclarNoHotel, HotelDialogFragment.AoSalvarHotel,
+        AoCliclarNoHotel, HotelDialogAddFragment.AoSalvarHotel,
         SearchView.OnQueryTextListener,
         MenuItemCompat.OnActionExpandListener {
 
@@ -75,7 +75,7 @@ public class HotelActivity extends AppCompatActivity implements
                 dialodFragment.show(getSupportFragmentManager(),"sobre");
                 break;
            /* case R.id.actionNew:
-                HotelDialogFragment hotelDialogFragment = HotelDialogFragment.newIntance(null);
+                HotelDialogAddFragment hotelDialogFragment = HotelDialogAddFragment.newIntance(null);
                 hotelDialogFragment.abrirDialogo(getSupportFragmentManager());
                 break;*/
         }
@@ -118,7 +118,7 @@ public class HotelActivity extends AppCompatActivity implements
     }
 
     public void adicionarHotelNaListaClick(View view) {
-        HotelDialogFragment hotelDialogFragment = HotelDialogFragment.newIntance(null);
-        hotelDialogFragment.abrirDialogo(getSupportFragmentManager());
+        HotelDialogAddFragment hotelDialogAddFragment = HotelDialogAddFragment.newIntance(null);
+        hotelDialogAddFragment.abrirDialogo(getSupportFragmentManager());
     }
 }

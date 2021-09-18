@@ -1,4 +1,4 @@
-package co.evertonnrb.findhoteis.fragaments;
+package co.evertonnrb.findhoteis.interfaces;
 
 import co.evertonnrb.findhoteis.model.Hotel;
 

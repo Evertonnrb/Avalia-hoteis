@@ -24,9 +24,11 @@
     <string name="mensagem_excluir">%d itens excuídos</string>
 
     <!--Strings actionbar-->
-    <string name="opacao_aba">Abas</string>
-    <string name="opacao_spinner">Spinner</string>
-    <string name="opacao_view_pager">View pager</string>
+    <string name="opacao_aba">Adicionar avaliação</string>
+    <string name="opacao_spinner">Hoteis</string>
+    <string name="opacao_view_pager">TODO</string>
+    <string name="compartilhar">Compartilhar</string>
+    <string name="compartilhar_experiencia">Me hospedei no %1$s e o classifiquei com %2$.1f estrelas</string>
 
     <string-array name="secoes">
         <item>Secao 1</item>
