@@ -27,9 +27,12 @@ public class Hotel implements Serializable {
         this.estrelas = estrelas;
     }
 
-    @Override
-    public String toString() {
-        return "Hotel: "+ nome ;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -55,4 +58,11 @@ public class Hotel implements Serializable {
     public void setEstrelas(float estrelas) {
         this.estrelas = estrelas;
     }
+
+
+    @Override
+    public String toString() {
+        return "Hotel: " + nome;
+    }
+
 }
