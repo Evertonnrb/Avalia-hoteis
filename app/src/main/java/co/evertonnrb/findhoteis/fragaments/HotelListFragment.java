@@ -24,7 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.evertonnrb.findhoteis.R;
+import co.evertonnrb.findhoteis.db.HotelRepository;
 import co.evertonnrb.findhoteis.interfaces.AoCliclarNoHotel;
+import co.evertonnrb.findhoteis.interfaces.AoExcluirHotel;
 import co.evertonnrb.findhoteis.model.Hotel;
 
 import static java.util.Arrays.asList;
@@ -39,16 +41,19 @@ public class HotelListFragment extends ListFragment implements
     private ListView mListView;
     private ActionMode mActionMode;
 
+    private HotelRepository repository;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        mHoteis = carregarHoteis();
+        //mHoteis = carregarHoteis();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        repository = new HotelRepository(getActivity());
         mListView = getListView();
         limparBusca();
     }
@@ -76,49 +81,19 @@ public class HotelListFragment extends ListFragment implements
         }
     }
 
-    public void buscar(String s) {
-        if (s == null || s.trim().equals("")) {
-            limparBusca();
-            return;
-        }
-        List<Hotel> hoteisEncontrados = new ArrayList<Hotel>(mHoteis);
-        for (int i = hoteisEncontrados.size() - 1; i >= 0; i--) {
-            Hotel hotel = hoteisEncontrados.get(i);
-            if (!hotel.getNome().toUpperCase().contains(s.toUpperCase())) {
-                hoteisEncontrados.remove(hotel);
-            }
-        }
-        mListView.setOnItemLongClickListener(null);
-        mAdapter = new ArrayAdapter<Hotel>(
-                getActivity(),
-                android.R.layout.simple_list_item_1,
-                hoteisEncontrados
-        );
-        setListAdapter(mAdapter);
-    }
 
-    public void limparBusca() {
-        mListView.setOnItemLongClickListener(this);
-        mAdapter = new ArrayAdapter<Hotel>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                mHoteis
-        );
-        setListAdapter(mAdapter);
-    }
-
-    public void adicionar(Hotel hotel) {
+    /*public void adicionar(Hotel hotel) {
         mHoteis.add(hotel);
         mAdapter.notifyDataSetChanged();
-    }
+    }*/
 
-    public List<Hotel> carregarHoteis() {
+   /* public List<Hotel> carregarHoteis() {
         List<Hotel> hoteis = new ArrayList<>();
         hoteis.add(new Hotel("Copacabana Palace", "Rio de Janeiro", 3.2f));
         hoteis.add(new Hotel("Friburgo Palace", "Rio de Janeiro", 4.9f));
         hoteis.add(new Hotel("Fundão da Rodoviária", "Mato Grosso do Sul", 2.2f));
         return hoteis;
-    }
+    }*/
 
     @Override
     public void clicouNoHotel(Hotel hotel) {
@@ -139,6 +114,93 @@ public class HotelListFragment extends ListFragment implements
         return false;
     }
 
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        getActivity().getMenuInflater().inflate(R.menu.menu_delete_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        if (item.getItemId() == R.id.acao_delete) {
+            remover();
+            mode.finish();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+        mActionMode = null;
+        mListView.clearChoices();
+        mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
+        limparBusca();
+    }
+
+    public void buscar(String s) {
+        if (s == null || s.trim().equals("")) {
+            limparBusca();
+            return;
+        }
+        //List<Hotel> hoteisEncontrados = new ArrayList<Hotel>(mHoteis);
+        List<Hotel> hoteisEncontrados = repository.findHotels("%"+s+"%");
+        for (int i = hoteisEncontrados.size() - 1; i >= 0; i--) {
+            Hotel hotel = hoteisEncontrados.get(i);
+            if (!hotel.getNome().toUpperCase().contains(s.toUpperCase())) {
+                hoteisEncontrados.remove(hotel);
+            }
+        }
+        mListView.setOnItemLongClickListener(null);
+        mAdapter = new ArrayAdapter<Hotel>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                hoteisEncontrados
+        );
+        setListAdapter(mAdapter);
+    }
+
+    public void limparBusca() {
+
+        mHoteis = repository.findHotels(null);
+        mListView.setOnItemLongClickListener(this);
+        mAdapter = new ArrayAdapter<Hotel>(
+                getActivity(),
+                android.R.layout.simple_list_item_activated_1,
+                mHoteis
+        );
+        setListAdapter(mAdapter);
+    }
+
+
+    private void remover() {
+        final List<Hotel> hoteisExcluidos = new ArrayList<>();
+        SparseBooleanArray checked = mListView.getCheckedItemPositions();
+        for (int i = checked.size() - 1; i >= 0; i--) {
+            if (checked.valueAt(i)) {
+                mHoteis.remove(checked.keyAt(i));
+            }
+        }
+        Activity activity = getActivity();
+        if (activity instanceof AoExcluirHotel){
+            AoExcluirHotel aoExcluirHotel = (AoExcluirHotel) activity;
+            ((AoExcluirHotel) activity).exclusaoCompleta(hoteisExcluidos);
+        }
+        Snackbar.make(mListView,getString(R.string.mensagem_excluir,hoteisExcluidos.size()), Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.desfazer, v -> {
+                    for (Hotel h : hoteisExcluidos) {
+                        //hoteisExcluidos.add(h);
+                        h.setId(0);
+                        repository.merge(h);
+                    }
+                    limparBusca();
+                }).show();
+    }
     private void iniciarExclusao() {
         AppCompatActivity compatActivity = (AppCompatActivity) getActivity();
         mActionMode = compatActivity.startSupportActionMode(this);
@@ -170,49 +232,6 @@ public class HotelListFragment extends ListFragment implements
         return checkedCount;
     }
 
-    @Override
-    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        getActivity().getMenuInflater().inflate(R.menu.menu_delete_list, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        return false;
-    }
 
-    @Override
-    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        if (item.getItemId() == R.id.acao_delete) {
-            remover();
-            mode.finish();
-            return true;
-        }
-        return false;
-    }
-
-    private void remover() {
-        final List<Hotel> hoteisExcluidos = new ArrayList<>();
-        SparseBooleanArray checked = mListView.getCheckedItemPositions();
-        for (int i = checked.size() - 1; i >= 0; i--) {
-            if (checked.valueAt(i)) {
-                mHoteis.remove(checked.keyAt(i));
-            }
-        }
-        Snackbar.make(mListView,getString(R.string.mensagem_excluir,hoteisExcluidos.size()), Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.desfazer, v -> {
-                    for (Hotel h : hoteisExcluidos) {
-                        hoteisExcluidos.add(h);
-                    }
-                    limparBusca();
-                }).show();
-    }
-
-    @Override
-    public void onDestroyActionMode(ActionMode mode) {
-        mActionMode = null;
-        mListView.clearChoices();
-        mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
-        limparBusca();
-    }
 }

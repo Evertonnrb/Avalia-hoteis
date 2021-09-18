@@ -2,6 +2,7 @@ package co.evertonnrb.findhoteis.fragaments;/*
     @author everton.nrb@gmail.com
 */
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
 import co.evertonnrb.findhoteis.R;
+import co.evertonnrb.findhoteis.interfaces.AoEditarHotel;
 import co.evertonnrb.findhoteis.model.Hotel;
 
 public class HotelDetalheFragment extends Fragment {
@@ -85,4 +87,20 @@ public class HotelDetalheFragment extends Fragment {
         return layout;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_edit){
+            Activity activity = getActivity();
+            if (activity instanceof AoEditarHotel){
+                AoEditarHotel aoEditarHotel = (AoEditarHotel) activity;
+                aoEditarHotel.aoEditarHotel(mHotel);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public Hotel getmHotel() {
+        return mHotel;
+    }
 }

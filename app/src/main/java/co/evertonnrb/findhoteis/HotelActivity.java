@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,20 +14,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.List;
+
+import co.evertonnrb.findhoteis.db.HotelRepository;
 import co.evertonnrb.findhoteis.fragaments.HotelDetalheFragment;
 import co.evertonnrb.findhoteis.fragaments.HotelDialogAddFragment;
 import co.evertonnrb.findhoteis.fragaments.HotelListFragment;
 import co.evertonnrb.findhoteis.fragaments.SobreDialogFragment;
 import co.evertonnrb.findhoteis.interfaces.AoCliclarNoHotel;
+import co.evertonnrb.findhoteis.interfaces.AoEditarHotel;
+import co.evertonnrb.findhoteis.interfaces.AoExcluirHotel;
 import co.evertonnrb.findhoteis.model.Hotel;
 
 public class HotelActivity extends AppCompatActivity implements
         AoCliclarNoHotel, HotelDialogAddFragment.AoSalvarHotel,
         SearchView.OnQueryTextListener,
-        MenuItemCompat.OnActionExpandListener {
+        MenuItemCompat.OnActionExpandListener,
+        AoEditarHotel, AoExcluirHotel {
 
     private FragmentManager mFragmentiManager;
     private HotelListFragment mHotelListFragment;
+
+    private static final int REQUEST_CODE_EDIT = 0;
+    private long mIdSelecionado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +45,14 @@ public class HotelActivity extends AppCompatActivity implements
 
         mFragmentiManager = getSupportFragmentManager();
         mHotelListFragment = (HotelListFragment) mFragmentiManager.findFragmentById(R.id.fragmentListaHoteis);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_EDIT && requestCode == RESULT_OK){
+            mHotelListFragment.limparBusca();
+        }
     }
 
     /**
@@ -107,18 +125,46 @@ public class HotelActivity extends AppCompatActivity implements
 
     @Override
     public void clicouNoHotel(Hotel hotel) {
+        hotel.setId(mIdSelecionado);
         Intent intent = new Intent(this, HotelDetalheActivity.class);
         intent.putExtra(HotelDetalheFragment.EXTRA_HOTEL, hotel);
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_CODE_EDIT);
     }
 
     @Override
     public void salvouHotel(Hotel hotel) {
-        mHotelListFragment.adicionar(hotel);
+        HotelRepository repository = new HotelRepository(this);
+        repository.merge(hotel);
+        mHotelListFragment.limparBusca();
     }
 
     public void adicionarHotelNaListaClick(View view) {
         HotelDialogAddFragment hotelDialogAddFragment = HotelDialogAddFragment.newIntance(null);
         hotelDialogAddFragment.abrirDialogo(getSupportFragmentManager());
+    }
+
+    @Override
+    public void aoEditarHotel(Hotel hotel) {
+        HotelDialogAddFragment eedtFragment = HotelDialogAddFragment.newIntance(hotel);
+        eedtFragment.abrirDialogo(getSupportFragmentManager());
+    }
+
+    @Override
+    public void exclusaoCompleta(List<Hotel> hoteis) {
+        HotelDetalheFragment detalheFragment = (HotelDetalheFragment) mFragmentiManager.findFragmentByTag(HotelDetalheFragment.TAG_DETALHE);
+        if (detalheFragment!=null){
+            boolean encontrou = false;
+            for (Hotel hotel : hoteis){
+                if (hotel.getId() == mIdSelecionado){
+                    encontrou = true;
+                    break;
+                }
+            }
+            if (encontrou){
+                FragmentTransaction transaction = mFragmentiManager.beginTransaction();
+                transaction.remove(detalheFragment);
+                transaction.commit();
+            }
+        }
     }
 }

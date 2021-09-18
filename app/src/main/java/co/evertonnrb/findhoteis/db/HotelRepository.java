@@ -67,10 +67,10 @@ public class HotelRepository {
         String sql = "SELECT * FROM " + HotelSQLHelper.TABELA_HOTEL;
         String[] args = null;
         if (filter != null) {
-            sql += "WHERE "+HotelSQLHelper.COLUNA_NOME +" LIKE ?";
+            sql += " WHERE "+HotelSQLHelper.COLUNA_NOME +" LIKE ?";
             args = new String[]{filter};
         }
-        sql += "ORDER BY "+HotelSQLHelper.COLUNA_NOME;
+        sql += " ORDER BY "+HotelSQLHelper.COLUNA_NOME;
         Cursor cursor = database.rawQuery(sql,args);
         List<Hotel> hotelList = new ArrayList<>();
         while (cursor.moveToNext()){
